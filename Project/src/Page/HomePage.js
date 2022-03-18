@@ -1,10 +1,15 @@
+import useTraduction from "./../Hook/useTraduction";
 
 const Home = () => {
-  return (
-    <>
-      <h1>Bienvenue!</h1>
-    </>
-  )
+	
+	const {trad} = useTraduction("test");
+
+	
+	return (
+		<>
+			<h1>Bienvenue!</h1>
+		</>
+	)
 };
 
 export default Home;

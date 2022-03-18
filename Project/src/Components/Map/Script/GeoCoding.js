@@ -1,6 +1,6 @@
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import useState from "react";
-import useFetch from "./../../Hook/useFetch";
+import useFetch from "./../../../Hook/useFetch";
 
 import useEffect from "react"
 

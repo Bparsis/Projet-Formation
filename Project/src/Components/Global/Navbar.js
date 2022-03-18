@@ -25,13 +25,23 @@ const Navbar = () => {
 							<Link className="nav-link" to="MapPage">Map</Link>
 						</li>
 						{ logged ?
-							<li className="nav-item">
-								<Link className="nav-link" to="LogoutPage">LogoutPage</Link>
-							</li>
+							<>
+								<li className="nav-item">
+									<Link className="nav-link" to="LogoutPage">Logout</Link>
+								</li>
+								<li className="nav-item">
+									<Link className="nav-link" to="ProfilePage">Profile</Link>
+								</li>
+							</>
 						:
-							<li className="nav-item">
-								<Link className="nav-link" to="LoginPage">LoginPage</Link>
-							</li>
+							<>
+								<li className="nav-item">
+									<Link className="nav-link" to="LoginPage">Login</Link>
+								</li>
+								<li className="nav-item">
+									<Link className="nav-link" to="SignupPage">Signup</Link>
+								</li>
+							</>
 						}
 					</ul>
 					<h1 className="text-light mx-5">{logged ? user.name : "Deconnecté" }</h1>

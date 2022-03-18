@@ -1,9 +1,9 @@
-import FormDist from "./FormDist"
+import FormNav from "./../Form/FormNav"
 
-const ModalDist = ({calcDist}) => {
+const ModalNav = ({calcNav}) => {
 	
 	return (
-		<div className="modal fade" id="ModalDist" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div className="modal fade" id="ModalNav" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div className="modal-dialog modal-dialog-centered">
 				<div className="modal-content">
 					<div className="modal-header">
@@ -11,11 +11,11 @@ const ModalDist = ({calcDist}) => {
 						<button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div className="modal-body">
-						<FormDist calcDist={calcDist}/>
+						<FormNav calcNav={calcNav}/>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
 }
-export default ModalDist;
+export default ModalNav;

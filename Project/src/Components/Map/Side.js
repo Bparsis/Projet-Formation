@@ -1,8 +1,8 @@
 import Steps from "./Steps";
 import Info from "./Info";
 import Search from "./Search";
-import CalcDist from "./CalcDist";
-import CalcNav from "./CalcNav";
+import CalcDist from "./Calc/CalcDist";
+import CalcNav from "./Calc/CalcNav";
 
 const Side = () => {
 

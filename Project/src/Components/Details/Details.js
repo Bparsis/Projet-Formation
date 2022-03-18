@@ -39,6 +39,7 @@ const Details = ({lng, lat}) => {
 		<>
 			{firstData.current &&
 				<>
+					<h1>BUGGED Disconect</h1>
 					<h1>{firstData.current[0].place_name}</h1>
 					<h3>{firstData.current[0].place_type[0]}</h3>
 				</>

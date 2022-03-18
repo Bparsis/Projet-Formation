@@ -2,7 +2,7 @@ import {useState, useEffect, useContext} from "react";
 
 import useFetch from "./../../Hook/useFetch"
 
-import AddMarker from "./AddMarker"
+import AddMarker from "./Script/AddMarker"
 
 import {MapContext} from "./Map"
 

@@ -1,6 +1,5 @@
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import {ReverseGeocoding} from './GeoCoding'
-import {tmp} from "./Map";
+import {ReverseGeocoding} from './GeoCoding'	
 const HandleClick = (map, coord, address) => {
 
 	var features = map.queryRenderedFeatures(coord.point, {

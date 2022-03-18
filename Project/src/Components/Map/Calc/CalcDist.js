@@ -1,10 +1,10 @@
 import {useContext, useEffect} from "react";
 
-import {MapContext} from "./Map";
+import {MapContext} from "./../Map";
 
-import useFetch from "./../../Hook/useFetch";
+import useFetch from "./../../../Hook/useFetch";
 
-import ModalDist from "./ModalDist";
+import ModalDist from "./../Modal/ModalDist";
 
 const CalcDist = () => {
 	

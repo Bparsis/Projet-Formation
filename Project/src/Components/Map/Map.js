@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, createContext } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
-import HandleClick from './HandleClick'
+import HandleClick from './Script/HandleClick'
 import useFetch from "./../../Hook/useFetch";
 
 import Print from "./Print";
@@ -38,7 +38,7 @@ const Map = () => {
 			HandleClick(map.current, coord, address);
 			let coords = coord.lat + ',' + coord.lng;
 			let popupContent = document.querySelector('.mapboxgl-popup').querySelector('.mapboxgl-popup-content');
-			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<a href="DetailsPage' + coords + '"><button class="btn btn-outline-success w-100" >Detail</button></a>';
+			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<a href="DetailsPage' + coords + '"><button class="btn btn-outline-warning w-100" >Detail</button></a>';
 		}
 	},[data])
 	

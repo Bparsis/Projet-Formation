@@ -1,11 +1,11 @@
 import {useContext, useEffect} from "react";
 
-import {MapContext} from "./Map";
+import {MapContext} from "./../Map";
 
-import useFetch from "./../../Hook/useFetch";
+import useFetch from "./../../../Hook/useFetch";
 
-import ModalNavError from "./ModalNavError";
-import ModalNav from "./ModalNav";
+import ModalNavError from "./../Modal/ModalNavError";
+import ModalNav from "./../Modal/ModalNav";
 
 import { Modal } from "bootstrap";
 
