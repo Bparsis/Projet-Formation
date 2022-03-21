@@ -4,10 +4,12 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import HandleClick from './Script/HandleClick'
 import useFetch from "./../../Hook/useFetch";
 
+import {ApiMapboxAcessToken} from "./../Global/Data";
+
 import Print from "./Print";
 import Side from "./Side";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYnBhcnNpcyIsImEiOiJja3ppOHdqenQwNWNxMm5wZjFmNWlha3NoIn0.TJ-XvIJUv54a7nnHsFy1CA';
+mapboxgl.accessToken = ApiMapboxAcessToken;
 
 const MapContext = createContext();
 
