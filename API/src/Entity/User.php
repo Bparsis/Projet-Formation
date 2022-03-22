@@ -16,29 +16,45 @@ class User
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $userName;
+    private $UserName;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $passWord;
+    private $Password;
 
     #[ORM\Column(type: 'object')]
     private $address;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $phoneNumber;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $PhoneNumber;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $mail;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: POI::class)]
-    private $POI;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $Mail;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $Transport;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: POI::class, orphanRemoval: true)]
+    private $POI;
+
+    #[ORM\ManyToMany(targetEntity: Favori::class, inversedBy: 'users')]
+    private $Favori;
+
+    #[ORM\ManyToMany(targetEntity: FilMessage::class, inversedBy: 'users')]
+    private $FilMessage;
+
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'users')]
+    private $Amis;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'Amis')]
+    private $users;
+
     public function __construct()
     {
         $this->POI = new ArrayCollection();
+        $this->Favori = new ArrayCollection();
+        $this->FilMessage = new ArrayCollection();
+        $this->Amis = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -48,24 +64,24 @@ class User
 
     public function getUserName(): ?string
     {
-        return $this->userName;
+        return $this->UserName;
     }
 
-    public function setUserName(string $userName): self
+    public function setUserName(string $UserName): self
     {
-        $this->userName = $userName;
+        $this->UserName = $UserName;
 
         return $this;
     }
 
-    public function getPassWord(): ?string
+    public function getPassword(): ?string
     {
-        return $this->passWord;
+        return $this->Password;
     }
 
-    public function setPassWord(string $passWord): self
+    public function setPassword(string $Password): self
     {
-        $this->passWord = $passWord;
+        $this->Password = $Password;
 
         return $this;
     }
@@ -84,24 +100,36 @@ class User
 
     public function getPhoneNumber(): ?string
     {
-        return $this->phoneNumber;
+        return $this->PhoneNumber;
     }
 
-    public function setPhoneNumber(string $phoneNumber): self
+    public function setPhoneNumber(?string $PhoneNumber): self
     {
-        $this->phoneNumber = $phoneNumber;
+        $this->PhoneNumber = $PhoneNumber;
 
         return $this;
     }
 
     public function getMail(): ?string
     {
-        return $this->mail;
+        return $this->Mail;
     }
 
-    public function setMail(string $mail): self
+    public function setMail(?string $Mail): self
     {
-        $this->mail = $mail;
+        $this->Mail = $Mail;
+
+        return $this;
+    }
+
+    public function getTransport(): ?string
+    {
+        return $this->Transport;
+    }
+
+    public function setTransport(string $Transport): self
+    {
+        $this->Transport = $Transport;
 
         return $this;
     }
@@ -136,14 +164,101 @@ class User
         return $this;
     }
 
-    public function getTransport(): ?string
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavori(): Collection
     {
-        return $this->Transport;
+        return $this->Favori;
     }
 
-    public function setTransport(string $Transport): self
+    public function addFavori(Favori $favori): self
     {
-        $this->Transport = $Transport;
+        if (!$this->Favori->contains($favori)) {
+            $this->Favori[] = $favori;
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): self
+    {
+        $this->Favori->removeElement($favori);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FilMessage>
+     */
+    public function getFilMessage(): Collection
+    {
+        return $this->FilMessage;
+    }
+
+    public function addFilMessage(FilMessage $filMessage): self
+    {
+        if (!$this->FilMessage->contains($filMessage)) {
+            $this->FilMessage[] = $filMessage;
+        }
+
+        return $this;
+    }
+
+    public function removeFilMessage(FilMessage $filMessage): self
+    {
+        $this->FilMessage->removeElement($filMessage);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAmis(): Collection
+    {
+        return $this->Amis;
+    }
+
+    public function addAmi(self $ami): self
+    {
+        if (!$this->Amis->contains($ami)) {
+            $this->Amis[] = $ami;
+        }
+
+        return $this;
+    }
+
+    public function removeAmi(self $ami): self
+    {
+        $this->Amis->removeElement($ami);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(self $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addAmi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(self $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeAmi($this);
+        }
 
         return $this;
     }

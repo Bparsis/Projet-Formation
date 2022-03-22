@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\POIRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: POIRepository::class)]
@@ -19,23 +21,29 @@ class POI
     #[ORM\Column(type: 'string', length: 255)]
     private $Titre;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $Categry;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $Category;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $Description;
 
     #[ORM\Column(type: 'float', nullable: true)]
     private $Note;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $Image;
 
-    #[ORM\OneToOne(targetEntity: Commentaire::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'POI')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
+
+    #[ORM\OneToMany(mappedBy: 'pOI', targetEntity: Commentaire::class)]
     private $Commentaire;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'POI')]
-    private $user;
+    public function __construct()
+    {
+        $this->Commentaire = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -66,14 +74,14 @@ class POI
         return $this;
     }
 
-    public function getCategry(): ?string
+    public function getCategory(): ?string
     {
-        return $this->Categry;
+        return $this->Category;
     }
 
-    public function setCategry(string $Categry): self
+    public function setCategory(?string $Category): self
     {
-        $this->Categry = $Categry;
+        $this->Category = $Category;
 
         return $this;
     }
@@ -83,7 +91,7 @@ class POI
         return $this->Description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(?string $Description): self
     {
         $this->Description = $Description;
 
@@ -107,21 +115,9 @@ class POI
         return $this->Image;
     }
 
-    public function setImage(string $Image): self
+    public function setImage(?string $Image): self
     {
         $this->Image = $Image;
-
-        return $this;
-    }
-
-    public function getCommentaire(): ?Commentaire
-    {
-        return $this->Commentaire;
-    }
-
-    public function setCommentaire(?Commentaire $Commentaire): self
-    {
-        $this->Commentaire = $Commentaire;
 
         return $this;
     }
@@ -134,6 +130,36 @@ class POI
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaire(): Collection
+    {
+        return $this->Commentaire;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->Commentaire->contains($commentaire)) {
+            $this->Commentaire[] = $commentaire;
+            $commentaire->setPOI($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->Commentaire->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getPOI() === $this) {
+                $commentaire->setPOI(null);
+            }
+        }
 
         return $this;
     }

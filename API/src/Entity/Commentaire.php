@@ -14,36 +14,67 @@ class Commentaire
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $Titre;
+    private $Type;
 
-    #[ORM\Column(type: 'array')]
-    private $Commentaire = [];
+    #[ORM\Column(type: 'integer')]
+    private $Parent;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $Content;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $Creator;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getType(): ?string
     {
-        return $this->Titre;
+        return $this->Type;
     }
 
-    public function setTitre(string $Titre): self
+    public function setType(string $Type): self
     {
-        $this->Titre = $Titre;
+        $this->Type = $Type;
 
         return $this;
     }
 
-    public function getCommentaire(): ?array
+    public function getParent(): ?int
     {
-        return $this->Commentaire;
+        return $this->Parent;
     }
 
-    public function setCommentaire(array $Commentaire): self
+    public function setParent(int $Parent): self
     {
-        $this->Commentaire = $Commentaire;
+        $this->Parent = $Parent;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->Content;
+    }
+
+    public function setContent(string $Content): self
+    {
+        $this->Content = $Content;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->Creator;
+    }
+
+    public function setCreator(?User $Creator): self
+    {
+        $this->Creator = $Creator;
 
         return $this;
     }
