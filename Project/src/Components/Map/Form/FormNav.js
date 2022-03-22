@@ -19,3 +19,5 @@ const FormNav = ({calcNav}) => {
 	);
 }
 export default FormNav;
+
+// ! Definition des parametre du trajet et apel a la fonction

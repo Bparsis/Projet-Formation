@@ -16,3 +16,5 @@ export default function NeedAuth({children}){
 	}
 	
 }
+
+// ! Permet de verifier le role de l'utilisateur si admin

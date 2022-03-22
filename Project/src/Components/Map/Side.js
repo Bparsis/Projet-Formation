@@ -19,3 +19,5 @@ const Side = () => {
 	);
 }
 export default Side;
+
+// ! Affichage et gestion des info de cotée notament search,calctraj,calcdist

@@ -7,7 +7,7 @@ const ModalNav = ({calcNav}) => {
 			<div className="modal-dialog modal-dialog-centered">
 				<div className="modal-content">
 					<div className="modal-header">
-						<h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+						<h5 className="modal-title" id="exampleModalLabel">Selectionner les parametre du trajet</h5>
 						<button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div className="modal-body">
@@ -19,3 +19,6 @@ const ModalNav = ({calcNav}) => {
 	);
 }
 export default ModalNav;
+
+// ! Affichage du form de parametrage
+// * Meilleur titre a trouver

@@ -16,3 +16,5 @@ const ModalNavError = () => {
 	);
 }
 export default ModalNavError;
+
+// ! Affichage d'une modal adaptative dediée aux erreur

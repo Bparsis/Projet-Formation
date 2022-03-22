@@ -37,3 +37,5 @@ const FormDist = ({calcDist}) => {
 	);
 }
 export default FormDist;
+
+// Definition des parametre du calcul de distance est apel a la fonction

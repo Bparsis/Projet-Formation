@@ -18,3 +18,6 @@ const Form = () => {
 }
 
 export default Form;
+
+// ! bare de recherche de la nav bar permettent de naviquer aux url saissie
+// ? W.I.P. elargie les recherche faite pour eviter l'exactitude

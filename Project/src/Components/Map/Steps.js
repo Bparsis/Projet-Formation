@@ -20,3 +20,5 @@ const Steps = () => {
 	);
 }
 export default Steps;
+
+// affichage des etape pour la conduite Bug d'affichage

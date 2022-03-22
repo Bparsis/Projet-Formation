@@ -48,3 +48,5 @@ const Details = ({lng, lat}) => {
 	);
 }
 export default Details;
+
+// ! affichage des detail lie aux POI W.I.P.

@@ -40,12 +40,12 @@ const Signup = () => {
 		var Url = ApiPerso+"/SignUp";
 		e.preventDefault();
 		
-		let userName = e.target[1].value;
-		let password = e.target[3].value;
-		let cpassword = e.target[4].value;
-		let mail = e.target[8].value;
-		let phone = e.target[9].value;
-		let transport = e.target[11].value;
+		let userName = e.target[1].value.replace(".","{dot}");
+		let password = e.target[3].value.replace(".","{dot}");
+		let cpassword = e.target[4].value.replace(".","{dot}");
+		let mail = e.target[8].value.replace(".","{dot}");
+		let phone = e.target[9].value.replace(".","{dot}");
+		let transport = e.target[11].value.replace(".","{dot}");
 		
 		if (password != cpassword){
 			return

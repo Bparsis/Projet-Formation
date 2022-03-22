@@ -6,3 +6,5 @@ const Print = forwardRef((props, mapContainer) => (
 
 ));
 export default Print;
+
+// ! affichage de la carte

@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";  //! W.I.P.
+import {useState, useEffect} from "react";  // ! W.I.P. !
 
 export default function useTraduction(str){
 	

@@ -18,3 +18,5 @@ const Loading = () => {
 }
 
 export default Loading;
+
+// ! composant loading pour un retour le temps de communication avec le API

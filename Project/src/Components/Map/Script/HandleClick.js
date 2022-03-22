@@ -2,20 +2,20 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import {ReverseGeocoding} from './GeoCoding'	
 const HandleClick = (map, coord, address) => {
 
-	var features = map.queryRenderedFeatures(coord.point, {
+	var features = map.queryRenderedFeatures(coord.point, {  // Definition+(recuperation des infos) des layer "cliquable"
 		layers: ['poi-label', 'transit-label', 'natural-point-label', 'data-driven-lines',  'building-number-label', 'water', 'land',  'landuse']
 	});
-	let lat = coord.lat.toFixed(4);
-	let lng = coord.lng.toFixed(4);
+	let lat = coord.lat.toFixed(4);	// limitation des coordonée affiché a 4 chiffre apres la virgules
+	let lng = coord.lng.toFixed(4);	// limitation des coordonée affiché a 4 chiffre apres la virgules
 	let lnglat = {lng: coord.lng, lat: coord.lat}
-	if (!features[0])
+	if (!features[0])	// si on ne possede pas des information
 	{
-		new mapboxgl.Popup()
+		new mapboxgl.Popup()	// affichage d'une Popup sans info
 			.setLngLat(lnglat)
 			.setHTML('<h1>Nothing here</h1><h2>'+address+'</h2><div class="mapboxgl-popup-button"></div>')
 			.addTo(map);
 	}else{
-		switch (features[0].layer.id){
+		switch (features[0].layer.id){	// Crée les Popup avec les infos que l'on possede
 			case 'poi-label':
 				new mapboxgl.Popup()
 					.setLngLat(lnglat)
@@ -69,3 +69,5 @@ const HandleClick = (map, coord, address) => {
 }
 
 export default HandleClick
+
+// ! Gestion des click sur la map
