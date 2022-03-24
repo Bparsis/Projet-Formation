@@ -6,6 +6,8 @@ import AddMarker from "./Script/AddMarker"
 
 import {MapContext} from "./Map"
 
+import {ApiMapbox} from "./../Global/Data"
+
 const Search = () => {
 	
 	const [result, setResult] = useState([])
@@ -23,7 +25,7 @@ const Search = () => {
 	},[data])
 	
 	const HandleSearch = (value="") => {
-		let Url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'+value+'.json?limit=5&access_token='+mapboxgl.accessToken;
+		let Url = ApiMapbox+'geocoding/v5/mapbox.places/'+value+'.json?limit=5&access_token='+mapboxgl.accessToken;
 		refresh(Url);
 	}
 	

@@ -44,7 +44,7 @@ const Navbar = () => {
 							</>
 						}
 					</ul>
-					<h1 className="text-light mx-5">{logged ? user.name : "Deconnecté" }</h1>
+					<h1 className="text-light mx-5">{logged ? user.UserName : "Deconnecté" }</h1>
 					<Form />
 				</div>
 			</div>
