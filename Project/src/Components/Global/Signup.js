@@ -25,7 +25,7 @@ const Signup = () => {
 			setLogged(true);
 			let User = {UserName: data.UserName, Transport: data.Transport, Address: data.Address};
 			setUser(User);
-			navigate("/mapPage")
+			// navigate("/mapPage")
 		}
 	},[data])
 	
@@ -81,17 +81,15 @@ const Signup = () => {
 
 		if (valid) {
 			// ↓ remplacement des . en {dot} car problematique lors des fetch ! Egalement problematique & ? W.I.P ↓
-
-			mail.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
-			phone.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
-			userName.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
-			password.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
-			transport.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
-			address?.replaceAll(".","{dot}")?.replaceAll("&","{and}")?.replaceAll("?", "{question}");
+			mail = mail.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
+			phone = phone.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
+			userName = userName.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
+			password = password.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
+			transport = transport.replaceAll(".","{dot}").replaceAll("&","{and}").replaceAll("?", "{question}");
+			address = address?.replaceAll(".","{dot}")?.replaceAll("&","{and}")?.replaceAll("?", "{question}");
 
 			var Url = ApiPerso+"/SignUp";
-			// Url += "/userName="+userName+"/password="+password+"/mail="+mail+"/phone="+phone+"/transport="+transport+"/address="+address;
-			// Url += "/userName="+userName+"/password="+password+"/mail="+mail+"/phone="+phone+"/transport="+transport+"/address="+address;
+			Url += "_userName="+userName+"_password="+password+"_mail="+mail+"_phone="+phone+"_transport="+transport+"_address="+address;
 		
 			refresh(Url);
 		} else {

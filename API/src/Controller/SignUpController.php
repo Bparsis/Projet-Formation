@@ -9,15 +9,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Custom\Coords;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 header('Access-Control-Allow-Origin: *');
 
 class SignUpController extends AbstractController
 {
 
-	// #[Route('/SignUp/userName={userName}/password={password}/mail={mail}/phone={phone}/transport={transport}/address={address}', name: 'app_sign_up', methods: ['GET'], requirements: ['mail' => '.*', 'phone' => '.*'])]
-	#[Route('/SignUp', name: 'app_sign_up', methods: ['GET'])]
-    public function SignUp($userName="a", $password="a", $mail="a", $phone="a", $transport="a", $address="a", EntityManagerInterface $entityManager): Response
+	#[Route('/SignUp_userName={userName}_password={password}_mail={mail}_phone={phone}_transport={transport}_address={address}', name: 'app_sign_up', methods: ['GET'], requirements: ['mail' => '.*', 'phone' => '.*'])]
+    public function SignUp($userName="a", $password="a", $mail="a", $phone="a", $transport="a", $address="a", EntityManagerInterface $entityManager, ManagerRegistry $registry): Response
     {
 		
 		$mail = str_replace("{dot}", ".", $mail);
@@ -56,9 +56,18 @@ class SignUpController extends AbstractController
 		
 		$coords = new Coords($address[0], $address[1]);
 		
+		$UserRepo = $registry->getRepository(User::class);
+		$Users = $UserRepo->findBy(['UserName' => $userName]);
+		
+		if($Users != []){
+			$error = true;
+			$codeError = "Name already existing";
+			$value = $userName;
+		}
+		
         if(!$error){
 			
-			$password = password_hash($password);
+			$password = password_hash($password, PASSWORD_DEFAULT);
 			
 			// $user = new User();
 			
@@ -79,7 +88,9 @@ class SignUpController extends AbstractController
 			
 			return $this->json([
 				'error' => $error,
-				'tmp' => $password,
+				'UserName' => $userName,
+				'Transport' => $transport,
+				'Address' => $address,
 				'message' => 'enregistrement fait',
 			]);
 		}else{
@@ -92,8 +103,3 @@ class SignUpController extends AbstractController
 		}
     }
 }
-	// #[Route('/SignUp?{tmp}', name: 'app_sign_up', methods: {'GET'})]
-	// #[Route('/SignUp?tmp={tmp}&test={test}', name: 'app_sign_up'), requirements: ['tmp' => '\w+', 'test' => '\w+']]
-	// #[Route('/SignUp/{tmp}/{test}', name: 'app_sign_up')]
-	// #[ParamConverter('tmp', options: ['mapping' => ['tmp' => 'tmp']])]
-	// #[ParamConverter('test', options: ['mapping' => ['test' => 'test']])]
