@@ -1,44 +1,74 @@
-import React, { useRef, useEffect, useState, createContext } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
-import HandleClick from './Script/HandleClick'
+import HandleClick from './../Map/Script/HandleClick'
 import useFetch from "./../../Hook/useFetch";
 
 import { ApiMapbox, ApiMapboxAcessToken, ApiMapboxStyle } from "./../Global/Data";
 
-import Print from "./Print";
-import Side from "./Side";
+import { AppContext } from "./../../App";
 
-
-mapboxgl.accessToken = ApiMapboxAcessToken;
-
-const MapContext = createContext();
-
-const Map = () => {
+const Profile = () => {
+	
+	const {user, logged} = useContext(AppContext)
 	
 	const {data, error, loading, refresh} = useFetch();
 	
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	
+	const navigate = useNavigate();
+	
+	if(!logged){
+		navigate("/");
+	}
+	
 	// Definition des ccordonée et niveaux de zoom initial
-	const [lng, setLng] = useState(3.3442);
-	const [lat, setLat] = useState(49.3562);
+	const [lng, setLng] = useState(user?.Address?.Lng);
+	const [lat, setLat] = useState(user?.Address?.Lat);
 	const [zoom, setZoom] = useState(12.00);
 	
 	const [coord, setCoord] = useState({});
 	const [marker, setMarker] = useState({});
-	const [steps, setSteps] = useState([]);
-	
+	const [Flag, setFlag] = useState("");
 
 	useEffect(() => {
-		if(data?.features){ 	// Traitement des donné apres une mise a jour des data de useFetch survenant au onClick
+		if(data?.features && Flag == "Click"){ 	// Traitement des donné apres une mise a jour des data de useFetch survenant au onClick
 			let address = data?.features[0]?.place_name;
 			HandleClick(map.current, coord, address);	// Creation d'un popup a l'emplacement du click
 			let coords = coord.lat + ',' + coord.lng;
 			// ↓ creation d'un bouton details dans la popup crée (seul et unique dans tout les cas) ↓
 			let popupContent = document.querySelector('.mapboxgl-popup').querySelector('.mapboxgl-popup-content');
 			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<a href="DetailsPage' + coords + '"><button class="btn btn-outline-warning w-100" >Detail</button></a>';
+		}
+		if (data?.features && Flag == "Dist"){
+			let GeoJson = data.features[0];
+			map.current.addSource('Time', {		// Creation de la souce correspondant a une distance
+				'type': 'geojson',
+				'data': GeoJson.geometry
+			});
+			map.current.addLayer({					// Affichage d'un layer polygons correspondant a la source crée
+				'id': 'TimeFill',
+				'type': 'fill',
+				'source': 'Time',
+				'layout': {},
+				'paint': {							// Definition des propriéte de l'affichage du layer
+					'fill-color': GeoJson.properties.fillColor,
+					'fill-opacity': GeoJson.properties.fillOpacity,
+					'fill-outline-color': GeoJson.properties.fillColor,
+				}
+			});
+			map.current.addLayer({					// Affichage d'un layer Line correspondant a la source crée (bordure)
+				'id': 'TimeLine',
+				'type': 'line',
+				'source': 'Time',
+				'layout': {},
+				'paint': {							//Deffinition des propriete de l'affichage
+					'line-width': 5,
+					'line-color': GeoJson.properties.color,
+				}
+			});
 		}
 	},[data])
 	
@@ -54,11 +84,15 @@ const Map = () => {
 				setCoord({lat: e.lngLat.lat, lng: e.lngLat.lng, point: e.point})
 				let Url = ApiMapbox+'geocoding/v5/mapbox.places/'+e.lngLat.lng+','+e.lngLat.lat+'.json?access_token='+mapboxgl.accessToken;
 				refresh(Url);
+				setFlag("Click");
 			});
 		});	
 		map.current.addControl(		// Ajout des controle de la carte (zoom, dezoom, orientation)
 			new mapboxgl.NavigationControl(),
 		);
+		setFlag("Dist");
+		let Url = ApiMapbox+"isochrone/v1/mapbox/driving/"+lng+"%2C"+lat+"?contours_minutes=30&contours_colors=660099&polygons=true&denoise=1&generalize=0&access_token="+mapboxgl.accessToken;
+		refresh(Url);		
 	},[]);
 		
 	useEffect(() => {				// redefini les state liée aux coordonée et zomm a chaque mouvement de la carte
@@ -71,14 +105,8 @@ const Map = () => {
 	});
 	
 	return (
-		<div className="d-flex">
-			<MapContext.Provider value={{lng, lat, zoom, map, mapboxgl, marker, setMarker, steps, setSteps}} >
-				<Side />
-				<Print ref={mapContainer} />
-			</MapContext.Provider >
-		</div>
+		<div ref={mapContainer} className="border border-5 border-success m-5 rounded-3" style={{minHeight: "700px", height: "700px"}} />
 	);
 }
-export {Map, MapContext};
 
-// ! Creation de la carte
+export default Profile;

@@ -18,8 +18,9 @@ const Login = () => {
 	useEffect(()=>{
 		if(data?.validity){
 			setLogged(true);
-			let User = {UserName: data.UserName, Transport: data.Transport, Address: data.Address};
+			let User = {UserName: data.UserName, Transport: data.Transport, Address: {Lng: data.Address[0], Lat: data.Address[1]}};
 			setUser(User);
+			console.log(User.Address)
 			navigate("/mapPage");
 		}
 	},[data])

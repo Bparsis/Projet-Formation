@@ -25,7 +25,7 @@ const Signup = () => {
 			setLogged(true);
 			let User = {UserName: data.UserName, Transport: data.Transport, Address: data.Address};
 			setUser(User);
-			// navigate("/mapPage")
+			navigate("/mapPage");
 		}
 	},[data])
 	

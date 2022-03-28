@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {MapContext} from "./Map"
+import {MapContext} from "./Map";
 
 const Steps = () => {
 	

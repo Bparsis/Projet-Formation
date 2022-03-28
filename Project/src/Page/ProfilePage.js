@@ -1,10 +1,10 @@
-import Login from "./../Components/Global/Login";
+import Profile from "./../Components/User/Profile";
 
-const LoginPage = () => {
+const ProfilePage = () => {
   return (
     <>
-      <Login />
+      <Profile />
     </>
   )
 };
-export default LoginPage;
+export default ProfilePage;
