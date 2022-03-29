@@ -69,22 +69,22 @@ class SignUpController extends AbstractController
 			
 			$password = password_hash($password, PASSWORD_DEFAULT);
 			
-			// $user = new User();
+			$user = new User();
 			
-			// $user->setUserName($userName);
-			// $user->setPassword($password);
-			// $user->setTransport($transport);
-			// $user->setAddress($address);
+			$user->setUserName($userName);
+			$user->setPassword($password);
+			$user->setTransport($transport);
+			$user->setAddress($address);
 			
-			// if ($phone != ""){				
-				// $user->setPhoneNumber($phone);
-			// }
-			// if ($mail != ""){				
-				// $user->setMail($mail);
-			// }
+			if ($phone != ""){				
+				$user->setPhoneNumber($phone);
+			}
+			if ($mail != ""){				
+				$user->setMail($mail);
+			}
 			
-			// $entityManager->persist($user);
-			// $entityManager->flush();
+			$entityManager->persist($user);
+			$entityManager->flush();
 			
 			return $this->json([
 				'error' => $error,

@@ -1,13 +1,19 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import React, { useRef, useEffect, useState, useContext, createContext } from 'react';
 import { useNavigate } from "react-router-dom";
+
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 import HandleClick from './../Map/Script/HandleClick'
 import useFetch from "./../../Hook/useFetch";
 
-import { ApiMapbox, ApiMapboxAcessToken, ApiMapboxStyle } from "./../Global/Data";
+import { ApiMapbox, ApiMapboxAcessToken, ApiMapboxStyle, ApiPerso } from "./../Global/Data";
 
 import { AppContext } from "./../../App";
+
+import ModalFavorite from "./ModalFavorite";
+
+
+const ProfileContext = createContext();
 
 const Profile = () => {
 	
@@ -40,9 +46,10 @@ const Profile = () => {
 			let coords = coord.lat + ',' + coord.lng;
 			// ↓ creation d'un bouton details dans la popup crée (seul et unique dans tout les cas) ↓
 			let popupContent = document.querySelector('.mapboxgl-popup').querySelector('.mapboxgl-popup-content');
-			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<a href="DetailsPage' + coords + '"><button class="btn btn-outline-warning w-100" >Detail</button></a>';
+			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = 
+			'<button data-bs-toggle="modal" data-bs-target="#ModalFavorite" class="btn btn-outline-success w-100">Ajouter au favoris </button>';
 		}
-		if (data?.features && Flag == "Dist"){
+		else if (data?.features && Flag == "Dist"){
 			let GeoJson = data.features[0];
 			map.current.addSource('Time', {		// Creation de la souce correspondant a une distance
 				'type': 'geojson',
@@ -65,10 +72,15 @@ const Profile = () => {
 				'source': 'Time',
 				'layout': {},
 				'paint': {							//Deffinition des propriete de l'affichage
-					'line-width': 5,
+					'line-width': 3,
 					'line-color': GeoJson.properties.color,
 				}
 			});
+		}
+		else if(data?.features && Flag == "Fav"){
+			setFlag("Dist");
+			let Url = ApiMapbox+"isochrone/v1/mapbox/"+user.Transport+"/"+lng+"%2C"+lat+"?contours_minutes=20&contours_colors=660099&polygons=true&denoise=1&generalize=0&access_token="+mapboxgl.accessToken;
+			refresh(Url);
 		}
 	},[data])
 	
@@ -90,9 +102,9 @@ const Profile = () => {
 		map.current.addControl(		// Ajout des controle de la carte (zoom, dezoom, orientation)
 			new mapboxgl.NavigationControl(),
 		);
-		setFlag("Dist");
-		let Url = ApiMapbox+"isochrone/v1/mapbox/driving/"+lng+"%2C"+lat+"?contours_minutes=30&contours_colors=660099&polygons=true&denoise=1&generalize=0&access_token="+mapboxgl.accessToken;
-		refresh(Url);		
+		setFlag("Fav");
+		let Url = ApiPerso+"/GetFavori_user="+user.UserName;
+		refresh(Url);
 	},[]);
 		
 	useEffect(() => {				// redefini les state liée aux coordonée et zomm a chaque mouvement de la carte
@@ -105,8 +117,15 @@ const Profile = () => {
 	});
 	
 	return (
-		<div ref={mapContainer} className="border border-5 border-success m-5 rounded-3" style={{minHeight: "700px", height: "700px"}} />
+		<>
+			<ProfileContext.Provider value={{coord}}>
+				<ModalFavorite />
+				<div ref={mapContainer} className="border border-5 border-success m-5 rounded-3" style={{minHeight: "700px", height: "700px"}} />
+			</ProfileContext.Provider>
+		</>
 	);
 }
 
 export default Profile;
+
+export {ProfileContext};

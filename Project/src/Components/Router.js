@@ -9,7 +9,6 @@ import SignupPage from "./../Page/SignupPage";
 import NeedAdmin from "./Global/NeedAdmin";
 
 import MapPage from "./../Page/MapPage";
-import DetailsPage from "./../Page/DetailsPage";
 import ProfilePage from "./../Page/ProfilePage";
 
 const Router = () => {
@@ -20,7 +19,6 @@ const Router = () => {
 				<Route path="/" element={<LayoutPage />}>
 					<Route index element={<HomePage />} />
 					<Route path="MapPage" element={<MapPage />} />
-					<Route path="DetailsPage:coords" element={<DetailsPage />} />
 					<Route path="LoginPage" element={<LoginPage />} />
 					<Route path="SignupPage" element={<SignupPage />} />
 					<Route path="LogoutPage" element={<LogoutPage />} />

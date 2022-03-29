@@ -8,7 +8,7 @@ import { ApiMapbox, ApiMapboxAcessToken, ApiMapboxStyle } from "./../Global/Data
 
 import Print from "./Print";
 import Side from "./Side";
-
+import ModalDetails from "./../Details/ModalDetails";
 
 mapboxgl.accessToken = ApiMapboxAcessToken;
 
@@ -38,7 +38,9 @@ const Map = () => {
 			let coords = coord.lat + ',' + coord.lng;
 			// ↓ creation d'un bouton details dans la popup crée (seul et unique dans tout les cas) ↓
 			let popupContent = document.querySelector('.mapboxgl-popup').querySelector('.mapboxgl-popup-content');
-			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<a href="DetailsPage' + coords + '"><button class="btn btn-outline-warning w-100" >Detail</button></a>';
+			// popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<a href="DetailsPage' + coords + '"><button class="btn btn-outline-warning w-100" >Detail</button></a>';
+			// popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<script>function tmp(){console.log("tmp")}</script><button class="btn btn-outline-warning w-100" onclick="tmp()">Detail</button>';
+			popupContent.querySelector('.mapboxgl-popup-button').innerHTML = '<button data-bs-toggle="modal" data-bs-target="#ModalDetails" class="btn btn-outline-success w-100">Details</button>';
 		}
 	},[data])
 	
@@ -71,12 +73,15 @@ const Map = () => {
 	});
 	
 	return (
-		<div className="d-flex">
-			<MapContext.Provider value={{lng, lat, zoom, map, mapboxgl, marker, setMarker, steps, setSteps}} >
-				<Side />
-				<Print ref={mapContainer} />
-			</MapContext.Provider >
-		</div>
+		<>
+			<ModalDetails />
+			<div className="d-flex">
+				<MapContext.Provider value={{lng, lat, zoom, map, mapboxgl, marker, setMarker, steps, setSteps}} >
+					<Side />
+					<Print ref={mapContainer} />
+				</MapContext.Provider >
+			</div>
+		</>
 	);
 }
 export {Map, MapContext};

@@ -27,6 +27,9 @@ class Favori
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'Favori')]
     private $users;
 
+    #[ORM\Column(type: 'string', length: 6)]
+    private $color;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -96,6 +99,18 @@ class Favori
         if ($this->users->removeElement($user)) {
             $user->removeFavori($this);
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

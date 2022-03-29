@@ -23,7 +23,7 @@ const Signup = () => {
 	useEffect(()=>{
 		if(!data?.error && data?.error != undefined){
 			setLogged(true);
-			let User = {UserName: data.UserName, Transport: data.Transport, Address: data.Address};
+			let User = {UserName: data.UserName, Transport: data.Transport, Address: {Lng: data.Address[0], Lat: data.Address[1]}};
 			setUser(User);
 			navigate("/mapPage");
 		}
